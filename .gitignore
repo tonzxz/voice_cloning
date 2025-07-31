@@ -1,0 +1,60 @@
+# Large model files (will be downloaded automatically)
+*.pth
+dvae.pth
+model.pth
+speakers_xtts.pth
+mel_stats.pth
+hash.md5
+config.json
+vocab.json
+
+# Audio files (except samples)
+audio*.wav
+audio*.mp3
+boy_*.wav
+output_cloned_voice.wav
+result.wav
+outputs/
+split_outputs/
+
+# Text files
+script*.txt
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS files
+.DS_Store
+._.DS_Store
+._*
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Logs
+*.log
+
+# Test directory
+test/
+
+# Git
+.git/
