@@ -83,10 +83,14 @@ The `.gitignore` excludes:
 ## 🔧 Next Steps
 
 1. ✅ **GitHub repo URL updated** to https://github.com/tonzxz/voice_cloning.git
-2. **Test locally** before deploying
-3. **Push to GitHub** (models will be auto-excluded)
-4. **Run deployment script** or follow manual instructions
-5. **Access your app** at the provided IP address
+2. ✅ **Complete requirements.txt** with pinned versions
+3. ✅ **Cross-platform setup scripts** (setup.sh for Linux/Mac, setup.bat for Windows)
+4. ✅ **Installation test script** (test_installation.py)
+5. ✅ **Windows setup guide** (WINDOWS-SETUP.md)
+6. **Test locally** before deploying
+7. **Push to GitHub** (models will be auto-excluded)
+8. **Run deployment script** or follow manual instructions
+9. **Access your app** at the provided IP address
 
 ## 🎉 Benefits of This Setup
 
