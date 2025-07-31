@@ -1,0 +1,248 @@
+# Geria Voice Cloning - GCP Deployment Instructions
+
+## 📋 Prerequisites
+- Google Cloud Platform account
+- Google Cloud SDK installed locally
+- Git repository for your project
+- Basic knowledge of GCP VM instances
+
+## 🚀 Deployment Steps
+
+### 1. Prepare Your Repository
+
+First, create a `.gitignore` file to exclude large model files:
+
+```bash
+# Large model files (will be downloaded automatically)
+*.pth
+dvae.pth
+model.pth
+speakers_xtts.pth
+mel_stats.pth
+
+# Audio files
+*.wav
+*.mp3
+*.flac
+outputs/
+split_outputs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+```
+
+### 2. Create GCP VM Instance
+
+```bash
+# Set your project ID
+export PROJECT_ID="your-project-id"
+gcloud config set project $PROJECT_ID
+
+# Create a VM instance with sufficient resources
+gcloud compute instances create geria-voice-cloning \
+    --zone=us-central1-a \
+    --machine-type=e2-standard-4 \
+    --boot-disk-size=50GB \
+    --boot-disk-type=pd-standard \
+    --image-family=ubuntu-2004-lts \
+    --image-project=ubuntu-os-cloud \
+    --tags=http-server,https-server
+
+# Allow HTTP/HTTPS traffic
+gcloud compute firewall-rules create allow-streamlit \
+    --allow tcp:8501 \
+    --source-ranges 0.0.0.0/0 \
+    --description "Allow Streamlit port"
+```
+
+### 3. Connect to Your VM
+
+```bash
+# SSH into the instance
+gcloud compute ssh geria-voice-cloning --zone=us-central1-a
+```
+
+### 4. Setup Environment on VM
+
+Once connected to your VM, run these commands:
+
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Python 3.9+ and pip
+sudo apt install python3.9 python3.9-pip python3.9-venv git -y
+
+# Create application directory
+mkdir ~/geria-voice-cloning
+cd ~/geria-voice-cloning
+
+# Clone your repository (replace with your GitHub repo URL)
+git clone https://github.com/your-username/geria-voice-cloning.git .
+
+# Create virtual environment
+python3.9 -m venv venv
+source venv/bin/activate
+
+# Install requirements
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# Install system dependencies for audio processing
+sudo apt install ffmpeg libsndfile1 espeak espeak-data libespeak1 libespeak-dev -y
+```
+
+### 5. Configure Streamlit for Production
+
+Create a Streamlit configuration file:
+
+```bash
+mkdir -p ~/.streamlit
+cat > ~/.streamlit/config.toml << EOF
+[server]
+headless = true
+port = 8501
+address = "0.0.0.0"
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false
+EOF
+```
+
+### 6. Create Startup Script
+
+Create a startup script for automatic deployment:
+
+```bash
+cat > startup.sh << 'EOF'
+#!/bin/bash
+cd ~/geria-voice-cloning
+source venv/bin/activate
+
+# Set Python path
+export PYTHONPATH=$PYTHONPATH:$(pwd)
+
+# Run the application
+streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+EOF
+
+chmod +x startup.sh
+```
+
+### 7. Create systemd Service (Optional - for auto-restart)
+
+```bash
+sudo tee /etc/systemd/system/geria-voice.service > /dev/null << EOF
+[Unit]
+Description=Geria Voice Cloning Service
+After=network.target
+
+[Service]
+Type=simple
+User=$USER
+WorkingDirectory=/home/$USER/geria-voice-cloning
+Environment=PATH=/home/$USER/geria-voice-cloning/venv/bin
+ExecStart=/home/$USER/geria-voice-cloning/venv/bin/streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable and start the service
+sudo systemctl enable geria-voice.service
+sudo systemctl start geria-voice.service
+```
+
+### 8. Run the Application
+
+```bash
+# Method 1: Direct run
+cd ~/geria-voice-cloning
+source venv/bin/activate
+streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+
+# Method 2: Using startup script
+./startup.sh
+
+# Method 3: Using systemd service
+sudo systemctl start geria-voice.service
+```
+
+### 9. Access Your Application
+
+Get your VM's external IP:
+```bash
+gcloud compute instances describe geria-voice-cloning --zone=us-central1-a --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
+```
+
+Access your application at: `http://YOUR_VM_EXTERNAL_IP:8501`
+
+## 🔧 Troubleshooting
+
+### Common Issues:
+
+1. **Model Download Takes Time**: First run will be slow as XTTS models are downloaded
+2. **Memory Issues**: Consider upgrading to `e2-standard-8` or higher for better performance
+3. **Port Issues**: Ensure firewall rule allows port 8501
+4. **Permission Issues**: Make sure all files have correct permissions
+
+### Monitoring:
+
+```bash
+# Check service status
+sudo systemctl status geria-voice.service
+
+# View logs
+sudo journalctl -u geria-voice.service -f
+
+# Check resource usage
+htop
+```
+
+### Performance Optimization:
+
+1. **Use SSD**: Add `--boot-disk-type=pd-ssd` for faster I/O
+2. **Increase Memory**: Use `e2-highmem-4` for memory-intensive tasks
+3. **GPU Support**: Consider `n1-standard-4` with GPU for faster inference
+
+## 💰 Cost Estimation
+
+- **e2-standard-4**: ~$100-120/month (24/7)
+- **Storage (50GB)**: ~$2-4/month
+- **Network**: Varies by usage
+
+## 🛡️ Security Considerations
+
+1. **Firewall**: Restrict access to specific IP ranges if needed
+2. **HTTPS**: Consider setting up SSL certificate
+3. **Authentication**: Add Streamlit authentication for production use
+
+## 📱 Custom Domain (Optional)
+
+1. Reserve static IP
+2. Configure DNS records
+3. Setup SSL certificate with Let's Encrypt
+
+For production deployment, consider using Google Cloud Run or App Engine for better scalability and managed infrastructure.

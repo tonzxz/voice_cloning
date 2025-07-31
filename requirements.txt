@@ -1,0 +1,31 @@
+# Core dependencies for Geria Voice Cloning
+streamlit>=1.28.0
+TTS>=0.22.0
+torch>=2.0.0
+torchaudio>=2.0.0
+numpy>=1.24.0
+librosa>=0.10.0
+scipy>=1.10.0
+soundfile>=0.12.1
+omegaconf>=2.3.0
+pydub>=0.25.1
+inflect>=6.0.0
+pypinyin>=0.48.0
+jieba>=0.42.1
+bangla>=0.0.2
+jamo>=0.4.1
+gruut[de,es,fr]>=2.2.3
+pyworld>=0.3.2
+phonemizer>=3.2.1
+
+# Additional dependencies
+pathlib2>=2.3.7
+regex>=2023.8.8
+pyyaml>=6.0
+requests>=2.31.0
+urllib3>=2.0.4
+charset-normalizer>=3.2.0
+
+# For production deployment
+gunicorn>=21.2.0
+psutil>=5.9.0
