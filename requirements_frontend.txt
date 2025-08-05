@@ -1,0 +1,15 @@
+# Frontend Requirements (Streamlit only)
+# For any machine - frontend.py
+
+# Core Web Framework
+streamlit==1.47.1
+requests==2.32.4
+
+# Basic utilities
+pathlib2==2.3.7
+urllib3==2.4.0
+charset-normalizer==3.4.2
+certifi==2025.6.15
+
+# Development Tools
+setuptools==80.9.0

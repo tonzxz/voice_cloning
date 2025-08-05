@@ -1,0 +1,56 @@
+# Backend Requirements (FastAPI + AI)
+# For Ubuntu server - backend.py
+
+# Web Framework
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+
+# AI/ML Core Dependencies (Working versions from local system)
+coqui-tts==0.27.0
+torch==2.7.1
+torchaudio==2.7.1
+transformers==4.53.2
+tokenizers==0.21.2
+huggingface-hub==0.33.4
+safetensors==0.5.3
+
+# Audio Processing
+librosa==0.11.0
+soundfile==0.13.1
+pydub==0.25.1
+scipy==1.16.0
+numpy==2.2.6
+audioread==3.0.1
+
+# Data Processing  
+pandas==2.3.1
+pillow==11.1.0
+omegaconf==2.3.0
+PyYAML==6.0.2
+
+# Text Processing & Multilingual Support
+inflect==7.5.0
+pypinyin==0.50.0
+jieba==0.42.1
+jamo==0.4.1
+gruut==2.4.0
+gruut-lang-de==2.0.1
+gruut-lang-en==2.0.1  
+gruut-lang-es==2.0.1
+gruut-lang-fr==2.0.2
+phonemizer==3.2.1
+num2words==0.5.14
+
+# System & Utilities
+psutil==7.0.0
+tqdm==4.67.1
+packaging==25.0
+requests==2.32.4
+urllib3==2.4.0
+charset-normalizer==3.4.2
+certifi==2025.6.15
+filelock==3.18.0
+
+# Development Tools
+setuptools==80.9.0
