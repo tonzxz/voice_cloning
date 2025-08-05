@@ -14,11 +14,11 @@ output_dir.mkdir(exist_ok=True)
 
 # Define speaker WAV files
 speaker_wavs = [
-    base_dir / "boy_1.wav",
-    base_dir / "boy_2.wav",
-    base_dir / "boy_3.wav",
-    base_dir / "boy_4.wav",
-    base_dir / "boy_5.wav",
+    base_dir / "Arabella1.wav",
+    base_dir / "Arabella2.wav",
+    base_dir / "Arabella3.wav",
+    base_dir / "Arabella4.wav",
+    base_dir / "Arabella5.wav",
 ]
 
 # Read and parse the text file
