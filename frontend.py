@@ -4,6 +4,7 @@ import base64
 import time
 from pathlib import Path
 import io
+import os
 
 # Configure Streamlit page
 st.set_page_config(
@@ -14,7 +15,7 @@ st.set_page_config(
 )
 
 # Backend API configuration
-BACKEND_URL = "http://localhost:8000"  # Change to your backend URL
+BACKEND_URL = os.getenv("BACKEND_URL") or "http://localhost:8000"
 
 # Custom CSS for dark mode minimalist design
 st.markdown("""
