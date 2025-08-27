@@ -1,0 +1,45 @@
+# Linux Frontend Requirements (Streamlit only)
+# Lightweight for any Linux machine - frontend.py
+
+# ===== CORE WEB FRAMEWORK =====
+streamlit==1.28.1
+requests==2.31.0
+
+# ===== HTTP & NETWORKING =====
+urllib3==2.0.7
+charset-normalizer==3.3.2
+certifi==2023.11.17
+aiohttp==3.9.0
+
+# ===== BASIC UTILITIES =====
+pathlib2==2.3.7
+packaging==23.2
+typing-extensions==4.8.0
+
+# ===== STREAMLIT DEPENDENCIES =====
+altair==5.1.2
+blinker==1.7.0
+cachetools==5.3.2
+click==8.1.7
+gitpython==3.1.40
+markdown-it-py==3.0.0
+numpy==1.24.3
+pandas==2.1.0
+pillow==10.0.1
+protobuf==4.25.0
+pyarrow==14.0.1
+pydeck==0.8.1b0
+python-dateutil==2.8.2
+pytz==2023.3.post1
+rich==13.7.0
+tenacity==8.2.3
+toml==0.10.2
+tornado==6.3.3
+tzlocal==5.2
+validators==0.22.0
+watchdog==3.0.0
+
+# ===== DEVELOPMENT TOOLS =====
+setuptools==68.2.2
+wheel==0.41.3
+pip==23.3.1
